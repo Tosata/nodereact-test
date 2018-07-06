@@ -6,7 +6,10 @@
   "dependencies": {
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4"
+    "react-google-maps": "^9.4.5",
+    "react-json-table": "^0.1.1",
+    "react-scripts": "1.1.4",
+    "ts-react-json-table": "^0.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
