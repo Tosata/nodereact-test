@@ -76,6 +76,7 @@ class App extends Component {
 
       <div className="App">
         
+        
         <MyMapComponent isMarkerShown
                         markers={this.state.response} />
 
