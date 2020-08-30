@@ -7,7 +7,7 @@ export class SimpleCache {
 
     private static instance: SimpleCache;
 
-    private cache: { url: string; body?: string, result: CacheResult, timestamp: Moment}[] = [];
+    private cache: { url: string; body?: string, result: CacheResult, timestamp: Moment }[] = [];
 
     constructor() {
         if (!!SimpleCache.instance) {
@@ -19,11 +19,12 @@ export class SimpleCache {
 
     public set = (url: string, result: any, body?: string): void => {
         const timestamp = moment();
-            this.cache.push({
-                url,
-                body,
-                result,
-                timestamp});
+        this.cache.push({
+            url,
+            body,
+            result,
+            timestamp
+        });
     }
 
     public get = (url: string, body?: string): CacheResult | null => {
@@ -34,7 +35,7 @@ export class SimpleCache {
             return x.url === url;
         });
         const now = moment();
-        if (cacheRecord && cacheRecord.timestamp.add(20, 'seconds').isAfter(now)) {
+        if (cacheRecord && cacheRecord.timestamp.clone().add(20, 'seconds').isAfter(now)) {
             return cacheRecord.result;
         }
         return null;

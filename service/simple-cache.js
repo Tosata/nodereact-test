@@ -1,19 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SimpleCache = void 0;
-var moment = require('moment');
+var moment = require("moment");
 var SimpleCache = /** @class */ (function () {
     function SimpleCache() {
         var _this = this;
         this.cache = [];
         this.set = function (url, result, body) {
-            if (!_this.recordExists(url, body)) {
-                _this.cache.push({
-                    url: url,
-                    body: body,
-                    result: result
-                });
-            }
+            var timestamp = moment();
+            _this.cache.push({
+                url: url,
+                body: body,
+                result: result,
+                timestamp: timestamp
+            });
         };
         this.get = function (url, body) {
             var cacheRecord = _this.cache.find(function (x) {
@@ -22,7 +22,8 @@ var SimpleCache = /** @class */ (function () {
                 }
                 return x.url === url;
             });
-            if (cacheRecord) {
+            var now = moment();
+            if (cacheRecord && cacheRecord.timestamp.clone().add(20, 'seconds').isAfter(now)) {
                 return cacheRecord.result;
             }
             return null;

@@ -1,29 +1,40 @@
+import {SimpleCache} from "./simple-cache";
+
 const axios = require('axios').default;
 
 class BikeService {
 
-    async GetRacks(): Promise<Rack[]> {
-        const params = {json: true};
-        const racks: Rack[] = [];
-        await axios.get(
-            'https://data.foli.fi/citybike/',
-            {params})
-            .then((response: any) => {
-                for (let i in response.data.racks) {
-                    racks.push({
-                        name: response.data.racks[i].name,
-                        bikes_avail: response.data.racks[i].bikes_avail,
-                        lon: response.data.racks[i].lon,
-                        lat: response.data.racks[i].lat,
-                        color: response.data.racks[i].bikes_avail > 2 ? 'green' : 'yellow'
-                    });
-                }
-            })
-            .catch((error: any) => {
-                console.log(error);
-            });
+    private apiCache = new SimpleCache();
 
-        return racks;
+    async GetRacks(): Promise<Rack[]> {
+        if (this.apiCache.recordExists('citybike')) {
+            return new Promise(resolve => {
+                resolve(this.apiCache.get('citybike'));
+            })
+        } else {
+            const params = {json: true};
+            const racks: Rack[] = [];
+            await axios.get(
+                'https://data.foli.fi/citybike/',
+                {params})
+                .then((response: any) => {
+                    for (let i in response.data.racks) {
+                        racks.push({
+                            name: response.data.racks[i].name,
+                            bikes_avail: response.data.racks[i].bikes_avail,
+                            lon: response.data.racks[i].lon,
+                            lat: response.data.racks[i].lat,
+                            color: response.data.racks[i].bikes_avail > 2 ? 'green' : 'yellow'
+                        });
+                    }
+                    this.apiCache.set('citybike', racks);
+                })
+                .catch((error: any) => {
+                    console.log(error);
+                });
+
+            return racks;
+        }
     }
 }
 

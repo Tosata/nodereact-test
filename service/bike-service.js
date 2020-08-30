@@ -36,22 +36,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var simple_cache_1 = require("./simple-cache");
 var axios = require('axios').default;
 var BikeService = /** @class */ (function () {
     function BikeService() {
+        this.apiCache = new simple_cache_1.SimpleCache();
     }
     BikeService.prototype.GetRacks = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var params, racks;
+            var params, racks_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (!this.apiCache.recordExists('citybike')) return [3 /*break*/, 1];
+                        return [2 /*return*/, new Promise(function (resolve) {
+                                resolve(_this.apiCache.get('citybike'));
+                            })];
+                    case 1:
                         params = { json: true };
-                        racks = [];
+                        racks_1 = [];
                         return [4 /*yield*/, axios.get('https://data.foli.fi/citybike/', { params: params })
                                 .then(function (response) {
                                 for (var i in response.data.racks) {
-                                    racks.push({
+                                    racks_1.push({
                                         name: response.data.racks[i].name,
                                         bikes_avail: response.data.racks[i].bikes_avail,
                                         lon: response.data.racks[i].lon,
@@ -59,13 +67,14 @@ var BikeService = /** @class */ (function () {
                                         color: response.data.racks[i].bikes_avail > 2 ? 'green' : 'yellow'
                                     });
                                 }
+                                _this.apiCache.set('citybike', racks_1);
                             })
                                 .catch(function (error) {
                                 console.log(error);
                             })];
-                    case 1:
+                    case 2:
                         _a.sent();
-                        return [2 /*return*/, racks];
+                        return [2 /*return*/, racks_1];
                 }
             });
         });
