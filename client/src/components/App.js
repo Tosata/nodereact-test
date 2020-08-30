@@ -36,7 +36,7 @@ var InfoBox = require("react-google-maps/lib/components/addons/InfoBox").InfoBox
 var MyMapComponent = recompose_1.compose(recompose_1.withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAK73U9fYt7qzTW6rrWYWqO0n-mUAAmH70&v=3.exp&libraries=geometry,drawing,places",
     loadingElement: react_1.default.createElement("div", { style: { height: "80%" } }),
-    containerElement: react_1.default.createElement("div", { style: { height: "500px" } }),
+    containerElement: react_1.default.createElement("div", { style: { height: "800px" } }),
     mapElement: react_1.default.createElement("div", { style: { height: "100%" } }),
 }), react_google_maps_1.withScriptjs, react_google_maps_1.withGoogleMap)(function (props) {
     return react_1.default.createElement(react_google_maps_1.GoogleMap, { defaultZoom: 13, defaultCenter: { lat: 60.4518, lng: 22.2666 } }, Object.keys(props).map(function (key) { return (react_1.default.createElement(InfoBox, { defaultPosition: new google.maps.LatLng(props[key].lat, props[key].lon), options: { closeBoxURL: "", enableEventPropagation: true } },

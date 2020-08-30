@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SimpleCache = void 0;
+var moment = require('moment');
 var SimpleCache = /** @class */ (function () {
     function SimpleCache() {
         var _this = this;

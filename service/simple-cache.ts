@@ -1,10 +1,13 @@
+import {Moment} from "moment";
+
 type CacheResult = any;
+import moment = require('moment');
 
 export class SimpleCache {
 
     private static instance: SimpleCache;
 
-    private cache: { url: string; body?: string, result: CacheResult }[] = [];
+    private cache: { url: string; body?: string, result: CacheResult, timestamp: Moment}[] = [];
 
     constructor() {
         if (!!SimpleCache.instance) {
@@ -15,13 +18,12 @@ export class SimpleCache {
     }
 
     public set = (url: string, result: any, body?: string): void => {
-        if (!this.recordExists(url, body)) {
+        const timestamp = moment();
             this.cache.push({
                 url,
                 body,
-                result
-            });
-        }
+                result,
+                timestamp});
     }
 
     public get = (url: string, body?: string): CacheResult | null => {
@@ -31,7 +33,14 @@ export class SimpleCache {
             }
             return x.url === url;
         });
+        const now = moment();
         if (cacheRecord) {
+            if (cacheRecord.timestamp.add(20, 'seconds').isBefore(now)) {
+                if (body) {
+                    return cacheRecord.url === url && cacheRecord.body === body;
+                }
+                return cacheRecord.url === url;
+            }
             return cacheRecord.result;
         }
         return null;
