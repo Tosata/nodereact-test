@@ -50,7 +50,7 @@ class App extends React.PureComponent<IState> {
     };
 
     filter = () => {
-        this.setState({response: this.state.response.filter(rack => rack.bikes_avail > 5)});
+        this.setState({response: this.state.response.filter(rack => rack.bikes_avail < 5)});
     };
 
     updateRacks() {
@@ -68,7 +68,6 @@ class App extends React.PureComponent<IState> {
         return (
             <div className="App">
                 <MyMapComponent {...this.state.response} />
-                {/*<JsonTable rows={this.state.response} />*/}
                 <button onClick={this.refresh}>Refresh</button>
                 <button onClick={this.filter}>Filter</button>
             </div>

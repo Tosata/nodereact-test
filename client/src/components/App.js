@@ -58,7 +58,7 @@ var App = /** @class */ (function (_super) {
             _this.updateRacks();
         };
         _this.filter = function () {
-            _this.setState({ response: _this.state.response.filter(function (rack) { return rack.bikes_avail > 5; }) });
+            _this.setState({ response: _this.state.response.filter(function (rack) { return rack.bikes_avail < 5; }) });
         };
         return _this;
     }
