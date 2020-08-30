@@ -34,13 +34,7 @@ export class SimpleCache {
             return x.url === url;
         });
         const now = moment();
-        if (cacheRecord) {
-            if (cacheRecord.timestamp.add(20, 'seconds').isBefore(now)) {
-                if (body) {
-                    return cacheRecord.url === url && cacheRecord.body === body;
-                }
-                return cacheRecord.url === url;
-            }
+        if (cacheRecord && cacheRecord.timestamp.add(20, 'seconds').isAfter(now)) {
             return cacheRecord.result;
         }
         return null;
