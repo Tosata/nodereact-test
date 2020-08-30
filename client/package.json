@@ -4,11 +4,13 @@
   "private": true,
   "proxy": "http://localhost:5000/",
   "dependencies": {
+    "@types/recompose": "^0.30.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-google-maps": "^9.4.5",
     "react-json-table": "^0.1.1",
     "react-scripts": "1.1.4",
+    "recompose": "^0.30.0",
     "ts-react-json-table": "^0.1.1"
   },
   "scripts": {
